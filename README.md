@@ -8,10 +8,10 @@ CUDA Driver API workloads.
 ## Project status
 
 Repository foundation, versioned data models, and the environment doctor are
-currently accepted: Phases A-C of Milestone 0. The Phase D CUDA probe is
-implemented and awaiting build and hardware verification on the native Linux
-target. The existing capture code is preliminary and is not an accepted
-implementation of Phase E.
+currently accepted: Phases A-C of Milestone 0. The Phase D CUDA probe has been
+verified on a GTX 1650 under Windows and still awaits native Linux verification.
+The Phase E experiment runner is implemented for native Linux and refuses to
+capture on Windows or WSL; its strace pipeline also awaits native Linux testing.
 
 Milestone 0 is passive. It does not capture or replay raw GPU command buffers,
 modify MMIO, patch kernel modules, or claim that syscall traces are hardware
@@ -77,6 +77,14 @@ binary hashes, and numerical verification results.
 That workflow is intentionally unavailable until the CUDA probe and experiment
 runner pass Phases D-E. See `docs/MILESTONE-0.md` and
 `docs/EXPERIMENT-DESIGN.md` for the planned procedure.
+
+On the native Linux target, capture and validate the configured matrix with:
+
+```bash
+cargo run -p ghostctl -- experiment capture --config configs/milestone-0.toml
+cargo run -p ghostctl -- experiment list
+cargo run -p ghostctl -- experiment validate experiments/<experiment-id>
+```
 
 ## Safety
 

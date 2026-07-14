@@ -13,7 +13,7 @@ use ghost_core::{
 const COMMAND_TIMEOUT: Duration = Duration::from_secs(5);
 
 pub(crate) fn run(json: bool) -> Result<()> {
-    let report = collect(&SystemCommandRunner, HostSnapshot::read());
+    let report = collect_system();
     if json {
         println!(
             "{}",
@@ -23,6 +23,10 @@ pub(crate) fn run(json: bool) -> Result<()> {
         print_human(&report);
     }
     Ok(())
+}
+
+pub(crate) fn collect_system() -> EnvironmentReport {
+    collect(&SystemCommandRunner, HostSnapshot::read())
 }
 
 fn collect(runner: &dyn CommandRunner, host: HostSnapshot) -> EnvironmentReport {

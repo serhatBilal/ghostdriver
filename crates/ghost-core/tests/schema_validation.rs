@@ -3,9 +3,9 @@ use std::path::PathBuf;
 
 use chrono::{DateTime, Utc};
 use ghost_core::{
-    EnvironmentReport, ExperimentManifest, ExperimentStatus, GitState, GpuInfo, GroupManifest,
-    PrivilegeInfo, RunArtifacts, RunManifest, RunStatus, SchemaVersion, ToolVersions,
-    VariableDefinition, VerificationStatus,
+    ArtifactHashes, EnvironmentReport, ExperimentManifest, ExperimentStatus, ExperimentSummary,
+    GitState, GpuInfo, GroupManifest, PrivilegeInfo, RunArtifacts, RunManifest, RunStatus,
+    SchemaVersion, ToolVersions, VariableDefinition, VerificationStatus,
 };
 use serde::Serialize;
 use serde_json::Value;
@@ -132,6 +132,27 @@ fn serialized_run_matches_schema() {
                 nvidia_smi_before: None,
                 nvidia_smi_after: None,
             },
+        },
+    );
+}
+
+#[test]
+fn serialized_hashes_and_summary_match_schemas() {
+    assert_valid(
+        "hashes.schema.json",
+        &ArtifactHashes {
+            schema_version: SchemaVersion::current(),
+            probe_sha256: "a".repeat(64),
+            fatbin_sha256: "b".repeat(64),
+        },
+    );
+    assert_valid(
+        "summary.schema.json",
+        &ExperimentSummary {
+            schema_version: SchemaVersion::current(),
+            total_runs: 40,
+            successful_runs: 39,
+            failed_runs: 1,
         },
     );
 }

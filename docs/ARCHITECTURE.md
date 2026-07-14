@@ -5,7 +5,9 @@
 `ghostctl` is the CLI boundary. Its Phase C doctor performs bounded host
 inspection and emits human-readable or versioned JSON reports. Its Phase D
 commands build and run the deterministic CUDA probe without trace capture.
-Capture, experiment validation, and report generation remain later-phase work.
+Its Linux-only Phase E runner creates immutable experiment groups, preserves
+failed runs, and validates their manifests and artifacts. Statistical report
+generation remains later-phase work.
 
 `ghost-core` owns side-effect-free, versioned data models. Phase B defines
 environment, experiment, group, and run documents. Deserialization rejects any

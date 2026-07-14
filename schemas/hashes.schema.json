@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ghostdriver.dev/schemas/hashes.schema.json",
+  "title": "GhostDriver artifact hashes",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "probe_sha256", "fatbin_sha256"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "probe_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "fatbin_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

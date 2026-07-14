@@ -86,7 +86,7 @@ fn execute(request: CommandRequest, operation: &str) -> Result<CommandOutput> {
     Ok(output)
 }
 
-fn repository_root() -> Result<PathBuf> {
+pub(crate) fn repository_root() -> Result<PathBuf> {
     let current = env::current_dir().context("failed to read current directory")?;
     find_repository_root(&current).with_context(|| {
         format!(

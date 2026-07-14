@@ -5,6 +5,32 @@ use serde::{Deserialize, Serialize};
 
 use crate::SchemaVersion;
 
+/// SHA-256 identities of executable artifacts shared by all groups.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ArtifactHashes {
+    /// Format version for this document.
+    pub schema_version: SchemaVersion,
+    /// Probe executable SHA-256 digest.
+    pub probe_sha256: String,
+    /// CUDA fatbin SHA-256 digest.
+    pub fatbin_sha256: String,
+}
+
+/// Final aggregate run counts for an experiment.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExperimentSummary {
+    /// Format version for this document.
+    pub schema_version: SchemaVersion,
+    /// Number of preserved recorded runs.
+    pub total_runs: u32,
+    /// Runs that exited and verified successfully.
+    pub successful_runs: u32,
+    /// Failed or timed-out runs.
+    pub failed_runs: u32,
+}
+
 /// Lifecycle state of an experiment or group.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]

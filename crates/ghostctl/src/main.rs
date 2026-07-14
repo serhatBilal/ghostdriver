@@ -1,4 +1,5 @@
 mod doctor;
+mod experiment;
 mod probe;
 
 use anyhow::Result;
@@ -25,6 +26,11 @@ enum Commands {
         #[command(subcommand)]
         command: ProbeCommand,
     },
+    /// Capture, list, or validate immutable experiment directories.
+    Experiment {
+        #[command(subcommand)]
+        command: ExperimentCommand,
+    },
 }
 
 #[derive(Subcommand)]
@@ -36,6 +42,23 @@ enum ProbeCommand {
         /// CUDA block size; this is the probe's only variable parameter.
         #[arg(long, default_value_t = 32, value_parser = parse_thread_count)]
         threads: u32,
+    },
+}
+
+#[derive(Subcommand)]
+enum ExperimentCommand {
+    /// Capture all groups defined by a versioned TOML configuration.
+    Capture {
+        /// Experiment configuration path.
+        #[arg(long, default_value = "configs/milestone-0.toml")]
+        config: std::path::PathBuf,
+    },
+    /// List experiment directories.
+    List,
+    /// Validate a completed experiment directory.
+    Validate {
+        /// Experiment directory to validate.
+        path: std::path::PathBuf,
     },
 }
 
@@ -56,6 +79,11 @@ fn main() -> Result<()> {
         Commands::Probe { command } => match command {
             ProbeCommand::Build => probe::build(),
             ProbeCommand::Run { threads } => probe::run(threads),
+        },
+        Commands::Experiment { command } => match command {
+            ExperimentCommand::Capture { config } => experiment::capture(&config),
+            ExperimentCommand::List => experiment::list(),
+            ExperimentCommand::Validate { path } => experiment::validate(&path),
         },
     }
 }

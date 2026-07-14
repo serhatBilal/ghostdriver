@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ghostdriver.dev/schemas/summary.schema.json",
+  "title": "GhostDriver experiment summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "total_runs", "successful_runs", "failed_runs"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "total_runs": { "type": "integer", "minimum": 0 },
+    "successful_runs": { "type": "integer", "minimum": 0 },
+    "failed_runs": { "type": "integer", "minimum": 0 }
+  }
+}

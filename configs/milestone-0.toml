@@ -1,0 +1,27 @@
+schema_version = 1
+name = "cuda-block-size-baseline"
+description = "Repeated CUDA Driver API vector-add runs with block size as the only independent variable."
+
+repetitions = 10
+warmup_runs = 2
+timeout_seconds = 30
+
+[probe]
+path = "build/cuda-vector-add/ghost-cuda-probe"
+element_count = 4096
+
+[variable]
+name = "threads"
+values = [32, 64, 128, 256]
+
+[capture]
+strace = true
+nvidia_smi_before = true
+nvidia_smi_after = true
+kernel_log_excerpt = false
+
+[validation]
+require_clean_git = false
+require_same_binary_hash = true
+require_same_fatbin_hash = true
+require_verification_passed = true
