@@ -7,9 +7,11 @@ CUDA Driver API workloads.
 
 ## Project status
 
-Only repository foundation and versioned data models are currently accepted:
-Phases A and B of Milestone 0. The existing command, probe, and capture code is
-preliminary and is not an accepted implementation of Phases C-E.
+Repository foundation, versioned data models, and the environment doctor are
+currently accepted: Phases A-C of Milestone 0. The Phase D CUDA probe is
+implemented and awaiting build and hardware verification on the native Linux
+target. The existing capture code is preliminary and is not an accepted
+implementation of Phase E.
 
 Milestone 0 is passive. It does not capture or replay raw GPU command buffers,
 modify MMIO, patch kernel modules, or claim that syscall traces are hardware
@@ -47,6 +49,24 @@ cargo test --workspace
 The test suite includes serialization round trips, schema-version rejection,
 and validation of serialized model fixtures against the checked-in schemas.
 
+Inspect the current host in a human-readable or versioned JSON format:
+
+```bash
+cargo run -p ghostctl -- doctor
+cargo run -p ghostctl -- doctor --json
+```
+
+The doctor never guesses that a host is supported. Missing tools and failed or
+timed-out checks remain visible as warnings.
+
+On a supported native Linux host with CUDA installed, build and run the Phase D
+probe with:
+
+```bash
+cargo run -p ghostctl -- probe build
+cargo run -p ghostctl -- probe run --threads 32
+```
+
 ## First experiment
 
 The first accepted experiment will compare 10 recorded runs at each of 32, 64,
@@ -54,8 +74,8 @@ The first accepted experiment will compare 10 recorded runs at each of 32, 64,
 independent variable. It must preserve environment metadata, failed runs,
 binary hashes, and numerical verification results.
 
-That workflow is intentionally unavailable until the doctor, CUDA probe, and
-experiment runner pass Phases C-E. See `docs/MILESTONE-0.md` and
+That workflow is intentionally unavailable until the CUDA probe and experiment
+runner pass Phases D-E. See `docs/MILESTONE-0.md` and
 `docs/EXPERIMENT-DESIGN.md` for the planned procedure.
 
 ## Safety

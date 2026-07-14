@@ -15,6 +15,8 @@ pub struct GpuInfo {
     pub pci_identifier: String,
     /// Total device memory in bytes.
     pub total_vram_bytes: u64,
+    /// CUDA compute capability reported by the driver.
+    pub compute_capability: Option<String>,
 }
 
 /// Metadata reported by the loaded NVIDIA kernel module.
@@ -134,6 +136,7 @@ mod tests {
                 name: "NVIDIA GeForce GTX 1650".into(),
                 pci_identifier: "0000:01:00.0".into(),
                 total_vram_bytes: 4 * 1024 * 1024 * 1024,
+                compute_capability: Some("7.5".into()),
             }),
             nvidia_driver_version: Some("fixture-driver".into()),
             nvidia_module: None,

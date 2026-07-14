@@ -22,3 +22,10 @@ jobs:
         run: cargo test --workspace
       - name: Check shell syntax
         run: bash -n scripts/*.sh
+      - name: Build CUDA probe when toolkit is available
+        run: |
+          if command -v nvcc >/dev/null 2>&1 && command -v cmake >/dev/null 2>&1; then
+            ./scripts/build_probe.sh
+          else
+            echo "CUDA toolkit unavailable; skipping optional probe build."
+          fi

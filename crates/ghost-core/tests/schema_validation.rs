@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 use chrono::{DateTime, Utc};
 use ghost_core::{
-    EnvironmentReport, ExperimentManifest, ExperimentStatus, GitState, GroupManifest,
+    EnvironmentReport, ExperimentManifest, ExperimentStatus, GitState, GpuInfo, GroupManifest,
     PrivilegeInfo, RunArtifacts, RunManifest, RunStatus, SchemaVersion, ToolVersions,
     VariableDefinition, VerificationStatus,
 };
@@ -45,7 +45,12 @@ fn serialized_environment_matches_schema() {
             distribution_release: Some("Ubuntu 24.04".into()),
             cpu_model: Some("Fixture CPU".into()),
             total_ram_bytes: Some(16_000_000_000),
-            gpu: None,
+            gpu: Some(GpuInfo {
+                name: "NVIDIA GeForce GTX 1650".into(),
+                pci_identifier: "00000000:01:00.0".into(),
+                total_vram_bytes: 4_294_967_296,
+                compute_capability: Some("7.5".into()),
+            }),
             nvidia_driver_version: None,
             nvidia_module: None,
             tools: ToolVersions::default(),
@@ -144,7 +149,7 @@ fn schemas_reject_unknown_versions() {
                 "distribution_release": null,
                 "cpu_model": null,
                 "total_ram_bytes": null,
-                "gpu": null,
+            "gpu": null,
                 "nvidia_driver_version": null,
                 "nvidia_module": null,
                 "tools": {

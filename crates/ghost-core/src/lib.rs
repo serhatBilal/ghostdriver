@@ -5,6 +5,7 @@
 
 pub mod environment;
 pub mod manifest;
+pub mod process;
 pub mod schema;
 
 pub use environment::{
@@ -13,5 +14,8 @@ pub use environment::{
 pub use manifest::{
     ExperimentManifest, ExperimentStatus, GroupManifest, RunArtifacts, RunManifest, RunStatus,
     VariableDefinition, VerificationStatus,
+};
+pub use process::{
+    CommandOutput, CommandRequest, CommandRunner, ProcessError, SystemCommandRunner,
 };
 pub use schema::{CURRENT_SCHEMA_VERSION, SchemaVersion, SchemaVersionError};
