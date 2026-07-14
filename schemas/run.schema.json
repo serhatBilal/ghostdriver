@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ghostdriver.dev/schemas/run.schema.json",
+  "title": "GhostDriver run manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "group_id",
+    "sequence",
+    "started_at",
+    "completed_at",
+    "status",
+    "exit_code",
+    "duration_ms",
+    "verification",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "group_id": { "type": "string", "minLength": 1 },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "status": {
+      "enum": ["pending", "running", "completed", "failed", "timed_out"]
+    },
+    "exit_code": { "type": ["integer", "null"] },
+    "duration_ms": { "type": ["integer", "null"], "minimum": 0 },
+    "verification": {
+      "type": ["string", "null"],
+      "enum": ["passed", "failed", "unavailable", null]
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stdout",
+        "stderr",
+        "strace_prefix",
+        "nvidia_smi_before",
+        "nvidia_smi_after"
+      ],
+      "properties": {
+        "stdout": { "type": "string", "minLength": 1 },
+        "stderr": { "type": "string", "minLength": 1 },
+        "strace_prefix": { "type": ["string", "null"] },
+        "nvidia_smi_before": { "type": ["string", "null"] },
+        "nvidia_smi_after": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

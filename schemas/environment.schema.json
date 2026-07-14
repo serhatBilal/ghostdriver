@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ghostdriver.dev/schemas/environment.schema.json",
+  "title": "GhostDriver environment report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "captured_at",
+    "operating_system",
+    "kernel_version",
+    "distribution_release",
+    "cpu_model",
+    "total_ram_bytes",
+    "gpu",
+    "nvidia_driver_version",
+    "nvidia_module",
+    "tools",
+    "secure_boot_state",
+    "iommu_state",
+    "privileges",
+    "git",
+    "supported_host",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "captured_at": { "type": "string", "format": "date-time" },
+    "operating_system": { "type": "string", "minLength": 1 },
+    "kernel_version": { "type": ["string", "null"] },
+    "distribution_release": { "type": ["string", "null"] },
+    "cpu_model": { "type": ["string", "null"] },
+    "total_ram_bytes": { "type": ["integer", "null"], "minimum": 0 },
+    "gpu": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "pci_identifier", "total_vram_bytes"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "pci_identifier": { "type": "string", "minLength": 1 },
+            "total_vram_bytes": { "type": "integer", "minimum": 0 }
+          }
+        }
+      ]
+    },
+    "nvidia_driver_version": { "type": ["string", "null"] },
+    "nvidia_module": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["filename", "version", "license", "open_module_confirmed"],
+          "properties": {
+            "filename": { "type": "string" },
+            "version": { "type": "string" },
+            "license": { "type": "string" },
+            "open_module_confirmed": { "type": "boolean" }
+          }
+        }
+      ]
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nvcc",
+        "rustc",
+        "cargo",
+        "cmake",
+        "cxx",
+        "strace",
+        "lspci_available",
+        "modinfo_available"
+      ],
+      "properties": {
+        "nvcc": { "type": ["string", "null"] },
+        "rustc": { "type": ["string", "null"] },
+        "cargo": { "type": ["string", "null"] },
+        "cmake": { "type": ["string", "null"] },
+        "cxx": { "type": ["string", "null"] },
+        "strace": { "type": ["string", "null"] },
+        "lspci_available": { "type": "boolean" },
+        "modinfo_available": { "type": "boolean" }
+      }
+    },
+    "secure_boot_state": { "type": ["string", "null"] },
+    "iommu_state": { "type": ["string", "null"] },
+    "privileges": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["user", "effective_user_id", "is_root"],
+      "properties": {
+        "user": { "type": ["string", "null"] },
+        "effective_user_id": { "type": ["integer", "null"], "minimum": 0 },
+        "is_root": { "type": "boolean" }
+      }
+    },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "working_tree_clean"],
+      "properties": {
+        "commit": { "type": ["string", "null"] },
+        "working_tree_clean": { "type": ["boolean", "null"] }
+      }
+    },
+    "supported_host": { "type": "boolean" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

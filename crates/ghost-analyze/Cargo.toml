@@ -1,0 +1,10 @@
+[package]
+name = "ghost-analyze"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Trace analysis library for GhostDriver"
+
+[dependencies]
+ghost-core = { path = "../ghost-core" }

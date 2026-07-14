@@ -1,0 +1,8 @@
+/target/
+/build/
+/experiments/*
+!/experiments/.gitkeep
+*.swp
+*.o
+*.cubin
+*.fatbin
